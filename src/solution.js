@@ -1,50 +1,92 @@
-let pointsSpan = document.getElementById("points");
 let gameDiv = document.getElementById("game");
-let selectStart = document.getElementById("select-start");
+let outputDiv = document.getElementById("output");
 let submitButton = document.getElementById("submit-btn");
 
-// set points to 0 initially
-if (pointsSpan.innerHTML === ""){
-    pointsSpan.innerHTML = 0;
-}
+submitButton.addEventListener("click", caucusRace);
 
-// set index to 0 initially
-let index = 0;
-
-submitButton.addEventListener("click", function(e){
+function caucusRace(e) {
     e.preventDefault();
-    console.log(e);
 
-    let selected = document.getElementById("select-start");
-    let splitted = selected.value.split("@");
-
-    pointsSpan.innerHTML = Number(pointsSpan.innerHTML) + Number(splitted[0]);
-
-    console.log(splitted);
+    let input = document.getElementById("input").value;
     
-    index = Number(index) + Number(splitted[1]);
-    console.log(index + " index");
+    // if the input is an empty string
+    if (input === "") {
+        return;
+    }
 
-});
+    // remove brackets - "[" and "]"
+    input = input.replace('[', '').replace(']', '');
 
-// get input dynamically
-let input = [-1, 4, -1, 3, -2, 2, 2, -3, 1, 3, -2];
-let counter = 0;
+    // split by ", " and make each element an integer
+    let inputArray = input.split(/[ ,]+/).map(element => Number(element));
+    console.log(inputArray);
 
-// set values for initial picker
-input.forEach(e => {
-    let option = document.createElement("option");
-    let value = e + "@" + counter;
-    option.setAttribute("value", value);
-    option.innerHTML = "Value " + e + " at " + counter + "th place.";
-    counter++;
-    selectStart.appendChild(option);
-});
+    // set values for race track 
+    inputArray.forEach(element => {
+        let div = document.createElement("div");
+        div.innerHTML = element;
+        div.setAttribute("class", "btn btn-sm btn-outline-success ml-1 mt-1 mb-1 mr-1");
+        gameDiv.appendChild(div);
+    });
 
-// set values for race track 
-input.forEach(e => {
+    let output = [];
+
+    for (let currIndex = 0; currIndex < inputArray.length; currIndex++) {
+        let returnedIndex = checkValidIndex(inputArray, currIndex);
+        
+        if (returnedIndex !== undefined) {
+            output.push(returnedIndex);
+        }
+    }
+
+    function checkValidIndex(inputArray, currIndex) {
+        let innerScore = 0;
+ 
+        for (let j = currIndex; j < inputArray.length; j++) {
+            innerScore += inputArray[j];
+
+            if (innerScore <= 0) {
+                return;
+            }  
+        }
+
+        for (let k = 0; k < currIndex; k++) {
+            innerScore += inputArray[k];
+
+            if (innerScore <= 0) {
+                return;
+            }  
+        }
+      
+        if (innerScore > 0) {
+            return currIndex;
+        }
+    }
+
+    // prepare output section
+    let info = document.createElement("div");
+    info.setAttribute("class", "col-md-4 offset-md-4");
+    info.innerHTML = "<h3>Output</h3><hr>";
+    outputDiv.appendChild(info);
+
+    // set values for output and append
     let div = document.createElement("div");
-    div.innerHTML = e;
-    div.setAttribute("class", "btn btn-sm btn-outline-success ml-1 mt-1 mb-1 mr-1");
-    gameDiv.appendChild(div);
-});
+    div.setAttribute("class", "col-md-4 offset-md-4 alert alert-success ml-1 mt-1 mb-1 mr-1");
+    
+    let outputPrepared = "[";
+    for (let m = 0; m < output.length; m++) {
+        if(m == output.length - 1) {
+            outputPrepared += output[m];
+        }
+        else {
+            outputPrepared += output[m] + ", ";
+        }
+    }
+
+    outputPrepared = outputPrepared + "]";
+
+    div.innerHTML = outputPrepared;
+    outputDiv.appendChild(div);
+
+    console.log(output);
+}

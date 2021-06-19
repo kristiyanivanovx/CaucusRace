@@ -30,25 +30,19 @@
       </nav>
 
     <main class="text-center container">
-      <form action="" method="post">
-        <div class="col-md-4 offset-md-4">
-          <h3 class="mt-3">Input</h3>
-          <hr>
-          <div class="form-group">
-            <textarea class="form-control" type="text" name="input" id="input"></textarea>
-          </div>
-          <button class="btn btn-sm btn-outline-success mt-3 mb-2" type="submit" id="submit-btn" value="Submit"> Submit</button>
+        <h3 class="mt-1">Points: <span id="points"></span></h3> 
+            <form action="" method="post">
+                <div class="col-md-6 offset-3">
+                    <select class="form-select" id="select-start" aria-label="Default select example">
+                        <option selected>- Select an starting position -</option>
+                    </select>
+                    <input type="submit" id="submit-btn" value="Submit">
+                </div>
+            </form>
+        <div class="mt-1" id="game">
         </div>
-      </form>
-
-      <div class="mt-1" id="output">
-      </div>
-
-      <div class="mt-1" id="game">
-      </div>
-
-      <hr class="col-md-4 offset-md-4">
-      <img class="mt-2" src="./materials/racetrack.png" alt="racetrack">
+        <!-- <hr> -->
+        <img src="../materials/racetrack.png" alt="racetrack">
     </main>
 
     <footer class="footer text-center bg-white">
