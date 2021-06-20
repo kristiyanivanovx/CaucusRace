@@ -22,12 +22,12 @@ function caucusRace(e) {
     console.log(inputArray);
 
     // set values for race track 
-    inputArray.forEach(element => {
-        let div = document.createElement("div");
-        div.innerHTML = element;
-        div.setAttribute("class", "btn btn-sm btn-outline-success ml-1 mt-1 mb-1 mr-1");
-        gameDiv.appendChild(div);
-    });
+    // inputArray.forEach(element => {
+    //     let div = document.createElement("div");
+    //     div.innerHTML = element;
+    //     div.setAttribute("class", "btn btn-sm btn-outline-success ml-1 mt-1 mb-1 mr-1");
+    //     gameDiv.appendChild(div);
+    // });
 
     let output = [];
 
@@ -73,20 +73,23 @@ function caucusRace(e) {
     let div = document.createElement("div");
     div.setAttribute("class", "col-md-4 offset-md-4 alert alert-success ml-1 mt-1 mb-1 mr-1");
     
-    let outputPrepared = "[";
-    for (let m = 0; m < output.length; m++) {
-        if(m == output.length - 1) {
-            outputPrepared += output[m];
-        }
-        else {
-            outputPrepared += output[m] + ", ";
-        }
-    }
+    // real array version
+    let outputPrepared = output;
 
-    outputPrepared = outputPrepared + "]";
+    // styled as array version
+    // let outputPrepared = "[";
+    // for (let m = 0; m < output.length; m++) {
+    //     if(m == output.length - 1) {
+    //         outputPrepared += output[m];
+    //     }
+    //     else {
+    //         outputPrepared += output[m] + ", ";
+    //     }
+    // }
+
+    // outputPrepared = outputPrepared + "]";
 
     div.innerHTML = outputPrepared;
     outputDiv.appendChild(div);
-
     console.log(output);
 }
