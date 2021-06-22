@@ -1,52 +1,49 @@
-let gameDiv = document.getElementById("game");
 let outputDiv = document.getElementById("output");
 let submitButton = document.getElementById("submit-btn");
+let clearButton = document.getElementById("clear-btn");
+let input = document.getElementById("input");
 
 submitButton.addEventListener("click", caucusRace);
+clearButton.addEventListener("click", clearInputOutput);
+
+function clearInputOutput(e) {
+    e.preventDefault();
+    outputDiv.innerHTML = "";
+    input.value = "";
+}
 
 function caucusRace(e) {
     e.preventDefault();
-
-    let input = document.getElementById("input").value;
     
     // if the input is an empty string
-    if (input === "") {
+    if (input.value === "") {
         return;
     }
 
-    // remove brackets - "[" and "]"
-    input = input.replace('[', '').replace(']', '');
-
-    // split by ", " and make each element an integer
-    let inputArray = input.split(/[ ,]+/).map(element => Number(element));
-    console.log(inputArray);
-
-    // set values for race track 
-    // inputArray.forEach(element => {
-    //     let div = document.createElement("div");
-    //     div.innerHTML = element;
-    //     div.setAttribute("class", "btn btn-sm btn-outline-success ml-1 mt-1 mb-1 mr-1");
-    //     gameDiv.appendChild(div);
-    // });
+    // extract all numbers with eregex and make them integers
+    let inputArray = input.value.match(/-?\d+/gm).map(element => Number(element));
+    // console.log(inputArray);
 
     let output = [];
-
     for (let currIndex = 0; currIndex < inputArray.length; currIndex++) {
-        let returnedIndex = checkValidIndex(inputArray, currIndex);
+        let shouldBeAdded = checkValidIndex(inputArray, currIndex);
         
-        if (returnedIndex !== undefined) {
-            output.push(returnedIndex);
+        if (shouldBeAdded) {
+            output.push(currIndex);
         }
     }
 
+    output = output.sort((a, b) => a - b);
+
     function checkValidIndex(inputArray, currIndex) {
+        let shouldBeAdded = true;
         let innerScore = 0;
- 
+
         for (let j = currIndex; j < inputArray.length; j++) {
             innerScore += inputArray[j];
 
             if (innerScore <= 0) {
-                return;
+                shouldBeAdded = false;
             }  
         }
 
@@ -54,13 +51,11 @@ function caucusRace(e) {
             innerScore += inputArray[k];
 
             if (innerScore <= 0) {
-                return;
+                shouldBeAdded = false;
             }  
         }
       
-        if (innerScore > 0) {
-            return currIndex;
-        }
+        return shouldBeAdded;
     }
 
     // prepare output section
@@ -74,22 +69,22 @@ function caucusRace(e) {
     div.setAttribute("class", "col-md-4 offset-md-4 alert alert-success ml-1 mt-1 mb-1 mr-1");
     
     // real array version
-    let outputPrepared = output;
+    // let outputPrepared = output;
 
     // styled as array version
-    // let outputPrepared = "[";
-    // for (let m = 0; m < output.length; m++) {
-    //     if(m == output.length - 1) {
-    //         outputPrepared += output[m];
-    //     }
-    //     else {
-    //         outputPrepared += output[m] + ", ";
-    //     }
-    // }
+    let outputStyled = "[";
+    for (let m = 0; m < output.length; m++) {
+        if(m == output.length - 1) {
+            outputStyled += output[m];
+        }
+        else {
+            outputStyled += output[m] + ", ";
+        }
+    }
 
-    // outputPrepared = outputPrepared + "]";
+    outputStyled = outputStyled + "]";
 
-    div.innerHTML = outputPrepared;
+    div.innerHTML = outputStyled;
     outputDiv.appendChild(div);
     console.log(output);
 }
