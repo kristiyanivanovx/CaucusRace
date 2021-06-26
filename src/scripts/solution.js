@@ -12,6 +12,29 @@ function clearInputOutput(e) {
     input.value = "";
 }
 
+function checkValidIndex(inputArray, currIndex) {
+    let shouldBeAdded = true;
+    let innerScore = 0;
+
+    for (let j = currIndex; j < inputArray.length; j++) {
+        innerScore += inputArray[j];
+
+        if (innerScore <= 0) {
+            shouldBeAdded = false;
+        }  
+    }
+
+    for (let k = 0; k < currIndex; k++) {
+        innerScore += inputArray[k];
+
+        if (innerScore <= 0) {
+            shouldBeAdded = false;
+        }  
+    }
+  
+    return shouldBeAdded;
+}
+
 function caucusRace(e) {
     e.preventDefault();
     
@@ -20,9 +43,8 @@ function caucusRace(e) {
         return;
     }
 
-    // extract all numbers with eregex and make them integers
+    // extract all numbers with regex and make them integers
     let inputArray = input.value.match(/-?\d+/gm).map(element => Number(element));
-    // console.log(inputArray);
 
     let output = [];
     for (let currIndex = 0; currIndex < inputArray.length; currIndex++) {
@@ -35,56 +57,23 @@ function caucusRace(e) {
 
     output = output.sort((a, b) => a - b);
 
-    function checkValidIndex(inputArray, currIndex) {
-        let shouldBeAdded = true;
-        let innerScore = 0;
-
-        for (let j = currIndex; j < inputArray.length; j++) {
-            innerScore += inputArray[j];
-
-            if (innerScore <= 0) {
-                shouldBeAdded = false;
-            }  
-        }
-
-        for (let k = 0; k < currIndex; k++) {
-            innerScore += inputArray[k];
-
-            if (innerScore <= 0) {
-                shouldBeAdded = false;
-            }  
-        }
-      
-        return shouldBeAdded;
-    }
-
-    // prepare output section
-    let info = document.createElement("div");
-    info.setAttribute("class", "col-md-4 offset-md-4");
-    info.innerHTML = "<h3>Output</h3><hr>";
-    outputDiv.appendChild(info);
+    // prepare output heading section
+    let headingDiv = document.createElement("div");
+    headingDiv.setAttribute("class", "col-md-4 offset-md-4");
+    headingDiv.innerHTML = "<h3>Output</h3><hr>";
+    outputDiv.appendChild(headingDiv);
 
     // set values for output and append
-    let div = document.createElement("div");
-    div.setAttribute("class", "col-md-4 offset-md-4 alert alert-success ml-1 mt-1 mb-1 mr-1");
+    let answerDiv = document.createElement("div");
+    answerDiv.setAttribute("class", "col-md-4 offset-md-4 alert alert-success ml-1 mt-1 mb-1 mr-1");
     
-    // real array version
-    // let outputPrepared = output;
-
     // styled as array version
-    let outputStyled = "[";
-    for (let m = 0; m < output.length; m++) {
-        if(m == output.length - 1) {
-            outputStyled += output[m];
-        }
-        else {
-            outputStyled += output[m] + ", ";
-        }
-    }
+    let outputStyled = "[" + output.join(', ') + "]";
 
-    outputStyled = outputStyled + "]";
+    // real array version
+    // let outputStyled = output;
 
-    div.innerHTML = outputStyled;
-    outputDiv.appendChild(div);
+    answerDiv.innerHTML = outputStyled;
+    outputDiv.appendChild(answerDiv);
     console.log(output);
 }
