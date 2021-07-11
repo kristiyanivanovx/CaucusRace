@@ -75,5 +75,4 @@ function caucusRace(e) {
 
 	answerDiv.innerHTML = outputStyled;
 	outputDiv.appendChild(answerDiv);
-	console.log(output);
 }
