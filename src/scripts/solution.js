@@ -59,13 +59,13 @@ function caucusRace(e) {
 
 	// prepare output heading section
 	let headingDiv = document.createElement("div");
-	headingDiv.setAttribute("class", "col-md-4 offset-md-4");
+	headingDiv.setAttribute("class", "col-md-6 offset-md-3");
 	headingDiv.innerHTML = "<h3>Output</h3><hr>";
 	outputDiv.appendChild(headingDiv);
 
 	// set values for output and append
 	let answerDiv = document.createElement("div");
-	answerDiv.setAttribute("class", "col-md-4 offset-md-4 alert alert-success ml-1 mt-1 mb-1 mr-1");
+	answerDiv.setAttribute("class", "alert alert-success ml-1 mt-1 mb-1 mr-1");
 
 	// styled as array version
 	let outputStyled = "[" + output.join(', ') + "]";
